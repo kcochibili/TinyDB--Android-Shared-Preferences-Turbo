@@ -12,6 +12,7 @@ tinydb.putString("userName", "john");
 tinydb.putBoolean("isUserMale", true); 
 tinydb.putList("MyUsers", mUsersArray);
 tinydb.putImagePNG("DropBox/WorkImages", "MeAtlunch.png", lunchBitmap);
+
 //These plus the corresponding get methods are all included
 ```
 
