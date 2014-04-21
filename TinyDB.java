@@ -152,14 +152,14 @@ public class TinyDB {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, value);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void putString(String key, String value) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(key, value);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void putList(String key, ArrayList<String> marray) {
@@ -170,7 +170,7 @@ public class TinyDB {
 		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
 		// seprating the items in the list
 		editor.putString(key, TextUtils.join("‚‗‚", mystringlist));
-		editor.commit();
+		editor.apply();
 	}
 
 	public static ArrayList<String> getList(String key) {
@@ -189,7 +189,7 @@ public class TinyDB {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(key, mboolean);
-		editor.commit();
+		editor.apply();
 	}
 
 	public static Boolean getBoolean(String key) {
