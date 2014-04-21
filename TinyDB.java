@@ -184,6 +184,34 @@ public class TinyDB {
 		return gottenlist;
 	}
 
+	public static void putListInt(String key, ArrayList<Integer> marray,
+			Context context) {
+		SharedPreferences.Editor editor = preferences.edit();
+		Integer[] mystringlist = marray.toArray(new Integer[marray.size()]);
+		// the comma like character used below is not a comma it is the SINGLE
+		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
+		// seprating the items in the list
+		editor.putString(key, TextUtils.join("‚‗‚", mystringlist));
+		editor.apply();
+	}
+	
+	public static ArrayList<Integer> getListInt(String key,
+			Context context) {
+		// the comma like character used below is not a comma it is the SINGLE
+		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
+		// seprating the items in the list
+		String[] mylist = TextUtils
+				.split(preferences.getString(key, ""), "‚‗‚");
+		ArrayList<String> gottenlist = new ArrayList<String>(
+				Arrays.asList(mylist));
+		ArrayList<Integer> gottenlist2 = new ArrayList<Integer>();
+		for (int i = 0; i < gottenlist.size(); i++) {
+			gottenlist2.add(Integer.parseInt(gottenlist.get(i)));
+		}
+
+		return gottenlist2;
+	}
+	
 	public static void putBoolean(String key, Boolean mboolean) {
 
 		SharedPreferences.Editor editor = preferences.edit();
