@@ -174,7 +174,6 @@ public class TinyDB {
 	}
 
 	public static ArrayList<String> getList(String key) {
-
 		// the comma like character used below is not a comma it is the SINGLE
 		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
 		// seprating the items in the list
