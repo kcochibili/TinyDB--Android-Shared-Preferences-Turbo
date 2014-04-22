@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -265,4 +266,17 @@ public class TinyDB {
 		editor.clear();
 		editor.apply();
 	}
+	
+	public Map<String, ?> getAll() {
+		return preferences.getAll();
+	}
+	
+	public void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+		preferences.registerOnSharedPreferenceChangeListener(listener);
+	}
+	
+	public void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+		preferences.unregisterOnSharedPreferenceChangeListener(listener);
+	}
+
 }
