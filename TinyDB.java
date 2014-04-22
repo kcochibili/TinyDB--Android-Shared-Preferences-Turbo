@@ -140,6 +140,10 @@ public class TinyDB {
 	public int getInt(String key) {
 		return preferences.getInt(key, 0);
 	}
+	
+	public int getLong(String key) {
+		return preferences.getLong(key, 0l);
+	}
 
 	public String getString(String key) {
 		return preferences.getString(key, "");
@@ -160,6 +164,12 @@ public class TinyDB {
 	public void putInt(String key, int value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, value);
+		editor.apply();
+	}
+	
+	public void putLong(String key, long value) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putLong(key, value);
 		editor.apply();
 	}
 	
@@ -224,14 +234,24 @@ public class TinyDB {
 		return gottenlist2;
 	}
 	
-	public void putBoolean(String key, Boolean mboolean) {
+	public void putBoolean(String key, boolean value) {
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putBoolean(key, mboolean);
+		editor.putBoolean(key, value);
 		editor.apply();
 	}
 
-	public Boolean getBoolean(String key) {
+	public boolean getBoolean(String key) {
 		return preferences.getBoolean(key, false);
+	}
+	
+	public void putFloat(String key, float value) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putFloat(key, value);
+		editor.apply();
+	}
+	
+	public float getFloat(String key) {
+		return preferences.getFloat(key, 0f);
 	}
 	
 	public void remove(String key) {
