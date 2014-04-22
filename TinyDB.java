@@ -19,13 +19,13 @@ import android.util.Log;
 
 public class TinyDB {
 	Context mContext;
-	static SharedPreferences preferences;
+	SharedPreferences preferences;
 	String DEFAULT_APP_IMAGEDATA_DIRECTORY;
 	File mFolder = null;
 	String lastImagePath = "";
 
 	public TinyDB(Context appContext) {
-		this.mContext = appContext;
+		mContext = appContext;
 		preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 	}
 
@@ -138,31 +138,47 @@ public class TinyDB {
 		return (bSuccess1 && bSuccess2 && bSuccess3);
 	}
 
-	public static int getInt(String key) {
+	public int getInt(String key) {
 
 		return preferences.getInt(key, 0);
 	}
 
-	public static String getString(String key) {
+	public String getString(String key) {
 
 		return preferences.getString(key, "");
 	}
+	
+	public double getDouble(String key) {
+		String stringValue = getString(key);
+		try {
+		 double value = Double.parseDouble(number);
+		 return value;
+		}
+		catch(NumberFormatException e)
+		{
+		  return 0;
+		}
+	}
 
-	public static void putInt(String key, int value) {
+	public void putInt(String key, int value) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, value);
 		editor.apply();
 	}
+	
+	public void putDouble(String key, double value) {
+		putString(key, String.valueOf(value));
+	}
 
-	public static void putString(String key, String value) {
+	public void putString(String key, String value) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(key, value);
 		editor.apply();
 	}
 
-	public static void putList(String key, ArrayList<String> marray) {
+	public void putList(String key, ArrayList<String> marray) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		String[] mystringlist = marray.toArray(new String[marray.size()]);
@@ -173,7 +189,7 @@ public class TinyDB {
 		editor.apply();
 	}
 
-	public static ArrayList<String> getList(String key) {
+	public ArrayList<String> getList(String key) {
 		// the comma like character used below is not a comma it is the SINGLE
 		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
 		// seprating the items in the list
@@ -184,7 +200,7 @@ public class TinyDB {
 		return gottenlist;
 	}
 
-	public static void putListInt(String key, ArrayList<Integer> marray,
+	public void putListInt(String key, ArrayList<Integer> marray,
 			Context context) {
 		SharedPreferences.Editor editor = preferences.edit();
 		Integer[] mystringlist = marray.toArray(new Integer[marray.size()]);
@@ -195,7 +211,7 @@ public class TinyDB {
 		editor.apply();
 	}
 	
-	public static ArrayList<Integer> getListInt(String key,
+	public ArrayList<Integer> getListInt(String key,
 			Context context) {
 		// the comma like character used below is not a comma it is the SINGLE
 		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
@@ -212,14 +228,14 @@ public class TinyDB {
 		return gottenlist2;
 	}
 	
-	public static void putBoolean(String key, Boolean mboolean) {
+	public void putBoolean(String key, Boolean mboolean) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(key, mboolean);
 		editor.apply();
 	}
 
-	public static Boolean getBoolean(String key) {
+	public Boolean getBoolean(String key) {
 
 		return preferences.getBoolean(key, false);
 	}
