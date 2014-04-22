@@ -87,7 +87,6 @@ public class TinyDB {
 	private boolean saveBitmapPNG(String strFileName, Bitmap bitmap) {
 		if (strFileName == null || bitmap == null)
 			return false;
-
 		boolean bSuccess1 = false;
 		boolean bSuccess2;
 		boolean bSuccess3;
@@ -139,12 +138,10 @@ public class TinyDB {
 	}
 
 	public int getInt(String key) {
-
 		return preferences.getInt(key, 0);
 	}
 
 	public String getString(String key) {
-
 		return preferences.getString(key, "");
 	}
 	
@@ -161,7 +158,6 @@ public class TinyDB {
 	}
 
 	public void putInt(String key, int value) {
-
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, value);
 		editor.apply();
@@ -229,14 +225,24 @@ public class TinyDB {
 	}
 	
 	public void putBoolean(String key, Boolean mboolean) {
-
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(key, mboolean);
 		editor.apply();
 	}
 
 	public Boolean getBoolean(String key) {
-
 		return preferences.getBoolean(key, false);
+	}
+	
+	public void remove(String key) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.remove(key);
+		editor.apply();
+	}
+	
+	public void clear() {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.clear();
+		editor.apply();
 	}
 }
