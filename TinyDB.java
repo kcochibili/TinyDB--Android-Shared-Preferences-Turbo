@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,13 +20,13 @@ import android.util.Log;
 
 public class TinyDB {
 	Context mContext;
-	static SharedPreferences preferences;
+	SharedPreferences preferences;
 	String DEFAULT_APP_IMAGEDATA_DIRECTORY;
 	File mFolder = null;
 	String lastImagePath = "";
 
 	public TinyDB(Context appContext) {
-		this.mContext = appContext;
+		mContext = appContext;
 		preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
 	}
 
@@ -87,7 +88,6 @@ public class TinyDB {
 	private boolean saveBitmapPNG(String strFileName, Bitmap bitmap) {
 		if (strFileName == null || bitmap == null)
 			return false;
-
 		boolean bSuccess1 = false;
 		boolean bSuccess2;
 		boolean bSuccess3;
@@ -138,31 +138,54 @@ public class TinyDB {
 		return (bSuccess1 && bSuccess2 && bSuccess3);
 	}
 
-	public static int getInt(String key) {
-
+	public int getInt(String key) {
 		return preferences.getInt(key, 0);
 	}
-
-	public static String getString(String key) {
-
-		return preferences.getString(key, "");
+	
+	public int getLong(String key) {
+		return preferences.getLong(key, 0l);
 	}
 
-	public static void putInt(String key, int value) {
+	public String getString(String key) {
+		return preferences.getString(key, "");
+	}
+	
+	public double getDouble(String key) {
+		String stringValue = getString(key);
+		try {
+		 double value = Double.parseDouble(number);
+		 return value;
+		}
+		catch(NumberFormatException e)
+		{
+		  return 0;
+		}
+	}
 
+	public void putInt(String key, int value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, value);
 		editor.apply();
 	}
+	
+	public void putLong(String key, long value) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putLong(key, value);
+		editor.apply();
+	}
+	
+	public void putDouble(String key, double value) {
+		putString(key, String.valueOf(value));
+	}
 
-	public static void putString(String key, String value) {
+	public void putString(String key, String value) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(key, value);
 		editor.apply();
 	}
 
-	public static void putList(String key, ArrayList<String> marray) {
+	public void putList(String key, ArrayList<String> marray) {
 
 		SharedPreferences.Editor editor = preferences.edit();
 		String[] mystringlist = marray.toArray(new String[marray.size()]);
@@ -173,7 +196,7 @@ public class TinyDB {
 		editor.apply();
 	}
 
-	public static ArrayList<String> getList(String key) {
+	public ArrayList<String> getList(String key) {
 		// the comma like character used below is not a comma it is the SINGLE
 		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
 		// seprating the items in the list
@@ -184,7 +207,7 @@ public class TinyDB {
 		return gottenlist;
 	}
 
-	public static void putListInt(String key, ArrayList<Integer> marray,
+	public void putListInt(String key, ArrayList<Integer> marray,
 			Context context) {
 		SharedPreferences.Editor editor = preferences.edit();
 		Integer[] mystringlist = marray.toArray(new Integer[marray.size()]);
@@ -195,7 +218,7 @@ public class TinyDB {
 		editor.apply();
 	}
 	
-	public static ArrayList<Integer> getListInt(String key,
+	public ArrayList<Integer> getListInt(String key,
 			Context context) {
 		// the comma like character used below is not a comma it is the SINGLE
 		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
@@ -212,15 +235,48 @@ public class TinyDB {
 		return gottenlist2;
 	}
 	
-	public static void putBoolean(String key, Boolean mboolean) {
-
+	public void putBoolean(String key, boolean value) {
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putBoolean(key, mboolean);
+		editor.putBoolean(key, value);
 		editor.apply();
 	}
 
-	public static Boolean getBoolean(String key) {
-
+	public boolean getBoolean(String key) {
 		return preferences.getBoolean(key, false);
 	}
+	
+	public void putFloat(String key, float value) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putFloat(key, value);
+		editor.apply();
+	}
+	
+	public float getFloat(String key) {
+		return preferences.getFloat(key, 0f);
+	}
+	
+	public void remove(String key) {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.remove(key);
+		editor.apply();
+	}
+	
+	public void clear() {
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.clear();
+		editor.apply();
+	}
+	
+	public Map<String, ?> getAll() {
+		return preferences.getAll();
+	}
+	
+	public void registerOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+		preferences.registerOnSharedPreferenceChangeListener(listener);
+	}
+	
+	public void unregisterOnSharedPreferenceChangeListener(SharedPreferences.OnSharedPreferenceChangeListener listener) {
+		preferences.unregisterOnSharedPreferenceChangeListener(listener);
+	}
+
 }
