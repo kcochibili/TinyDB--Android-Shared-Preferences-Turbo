@@ -235,6 +235,31 @@ public class TinyDB {
 		return gottenlist2;
 	}
 	
+	public void putListBoolean(String key, ArrayList<Boolean> marray){
+		ArrayList<String> origList = new ArrayList<String>();
+		for(Boolean b : marray){
+			if(b==true){
+				origList.add("true");
+			}else{
+				origList.add("false");
+			}
+		}
+		putList(key, origList);
+	}
+	
+	public ArrayList<Boolean> getListBoolean(String key) {
+		ArrayList<String> origList = getList(key);
+		ArrayList<Boolean> mBools = new ArrayList<Boolean>();
+		for(String b : origList){
+			if(b.equals("true")){
+				mBools.add(true);
+			}else{ 
+				mBools.add(false);
+			} 
+		}
+		return mBools;
+	}
+	
 	public void putBoolean(String key, boolean value) {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putBoolean(key, value);
