@@ -8,12 +8,17 @@ example usage:
 TinyDB tinydb = new TinyDB(context);
 
 tinydb.putInt("clickCount", 2);
+tinydb.putFloat("xPoint", 3.6f);
+tinydb.putLong("userCount", 39832L);
+
 tinydb.putString("userName", "john");
 tinydb.putBoolean("isUserMale", true); 
+
 tinydb.putList("MyUsers", mUsersArray);
 tinydb.putImagePNG("DropBox/WorkImages", "MeAtlunch.png", lunchBitmap);
 
 //These plus the corresponding get methods are all included
 ```
+
 
 This is just an exmple of how easy it is to use. there are many more usefull methods included in the class. Enjoy :)
