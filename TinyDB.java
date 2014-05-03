@@ -23,7 +23,7 @@ public class TinyDB {
 	SharedPreferences preferences;
 	String DEFAULT_APP_IMAGEDATA_DIRECTORY;
 	File mFolder = null;
-	String lastImagePath = "";
+	public static String lastImagePath = "";
 
 	public TinyDB(Context appContext) {
 		mContext = appContext;
