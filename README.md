@@ -21,4 +21,4 @@ tinydb.putImagePNG("DropBox/WorkImages", "MeAtlunch.png", lunchBitmap);
 ```
 
 
-This is just an exmple of how easy it is to use. there are many more usefull methods included in the class. Enjoy :)
+This is just an example of how easy it is to use. there are many more usefull methods included in the class. Enjoy :)
