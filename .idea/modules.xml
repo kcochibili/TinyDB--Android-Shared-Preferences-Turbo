@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/TinyDB.iml" filepath="$PROJECT_DIR$/TinyDB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TinyDB/TinyDB-TinyDB.iml" filepath="$PROJECT_DIR$/TinyDB/TinyDB-TinyDB.iml" />
+    </modules>
+  </component>
+</project>
+
