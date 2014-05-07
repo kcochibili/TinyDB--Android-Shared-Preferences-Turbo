@@ -142,7 +142,7 @@ public class TinyDB {
 		return preferences.getInt(key, 0);
 	}
 	
-	public int getLong(String key) {
+	public long getLong(String key) {
 		return preferences.getLong(key, 0l);
 	}
 
@@ -151,7 +151,7 @@ public class TinyDB {
 	}
 	
 	public double getDouble(String key) {
-		String stringValue = getString(key);
+		String number = getString(key);
 		try {
 		 double value = Double.parseDouble(number);
 		 return value;
