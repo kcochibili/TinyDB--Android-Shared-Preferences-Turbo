@@ -286,6 +286,12 @@ public class TinyDB {
 		editor.apply();
 	}
 	
+	public Boolean deleteImage(String path){
+		File tobedeletedImage = new File(path);
+		Boolean isDeleted = tobedeletedImage.delete();
+		return isDeleted;
+	}
+	
 	public void clear() {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.clear();
