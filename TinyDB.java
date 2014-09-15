@@ -86,6 +86,10 @@ public class TinyDB {
 		lastImagePath = mFullPath;
 		return mFullPath;
 	}
+	
+	public Boolean putImagePNGwithfullPath(String fullPath, Bitmap theBitmap){
+		return saveBitmapPNG(fullPath, theBitmap);
+	}
 
 	private String setupFolderPath(String imageName) {
 		File sdcard_path = Environment.getExternalStorageDirectory();
