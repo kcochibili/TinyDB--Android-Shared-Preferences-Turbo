@@ -227,8 +227,7 @@ public class TinyDB {
 		return gottenlist;
 	}
 
-	public void putListInt(String key, ArrayList<Integer> marray,
-			Context context) {
+	public void putListInt(String key, ArrayList<Integer> marray) {
 		SharedPreferences.Editor editor = preferences.edit();
 		Integer[] mystringlist = marray.toArray(new Integer[marray.size()]);
 		// the comma like character used below is not a comma it is the SINGLE
