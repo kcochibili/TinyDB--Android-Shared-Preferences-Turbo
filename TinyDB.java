@@ -253,6 +253,32 @@ public class TinyDB {
 		return gottenlist2;
 	}
 	
+	public void putListDouble(String key, ArrayList<Double> marray) {
+		SharedPreferences.Editor editor = preferences.edit();
+		Double[] mystringlist = marray.toArray(new Double[marray.size()]);
+		// the comma like character used below is not a comma it is the SINGLE
+		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
+		// seprating the items in the list
+		editor.putString(key, TextUtils.join("â€šâ€—â€š", mystringlist));
+		editor.apply();
+	}
+	
+	public ArrayList<Double> getListDouble(String key) {
+		// the comma like character used below is not a comma it is the SINGLE
+		// LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
+		// seprating the items in the list
+		String[] mylist = TextUtils
+				.split(preferences.getString(key, ""), "â€šâ€—â€š");
+		ArrayList<String> gottenlist = new ArrayList<String>(
+				Arrays.asList(mylist));
+		ArrayList<Double> gottenlist2 = new ArrayList<Double>();
+		for (int i = 0; i < gottenlist.size(); i++) {
+			gottenlist2.add(Double.parseDouble(gottenlist.get(i)));
+		}
+
+		return gottenlist2;
+	}
+	
 	public void putListBoolean(String key, ArrayList<Boolean> marray){
 		ArrayList<String> origList = new ArrayList<String>();
 		for(Boolean b : marray){
