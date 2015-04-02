@@ -1,9 +1,8 @@
-TinyDB--Android-Shared-Preferences-Turbo
-========================================
+# TinyDB -- Android-Shared-Preferences-Turbo
 
-This class simplifies calls to SharedPreferences in a line of code. it can also do more like: saving a list of Strings, ints. and Saving images. All in 1 line of code!
+This class simplifies calls to SharedPreferences in a line of code. It can also do more like: saving a list of strings, integers and saving images. All in 1 line of code!
 
-example usage:
+Example usage:
 ```
 TinyDB tinydb = new TinyDB(context);
 
@@ -21,4 +20,4 @@ tinydb.putImagePNG("DropBox/WorkImages", "MeAtlunch.png", lunchBitmap);
 ```
 
 
-This is just an example of how easy it is to use. there are many more usefull methods included in the class. Enjoy :)
+This is just an example of how easy it is to use. There are many more usefull methods included in the class. Enjoy :)
