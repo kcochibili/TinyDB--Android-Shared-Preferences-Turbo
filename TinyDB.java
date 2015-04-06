@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.myappname;
+/*
+ *  The "‚‗‚" character is not a comma, it is the SINGLE LOW-9 QUOTATION MARK unicode 201A
+ *  and unicode 2017 that are used for separating the items in a list.
+ */
+
+package com.moonpi.swiftnotes;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
@@ -36,323 +40,454 @@ import android.util.Log;
 
 
 public class TinyDB {
-    Context mContext;
-    SharedPreferences preferences;
-    String DEFAULT_APP_IMAGEDATA_DIRECTORY;
-    File mFolder = null;
-    public static String lastImagePath = "";
 
+    private SharedPreferences preferences;
+    private String DEFAULT_APP_IMAGEDATA_DIRECTORY;
+    private String lastImagePath = "";
 
     public TinyDB(Context appContext) {
-        mContext = appContext;
-        preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        preferences = PreferenceManager.getDefaultSharedPreferences(appContext);
     }
 
 
+    /**
+     * Decodes the Bitmap from 'path' and returns it
+     * @param path image path
+     * @return the Bitmap from 'path'
+     */
     public Bitmap getImage(String path) {
-        Bitmap theGottenBitmap = null;
+        Bitmap bitmapFromPath = null;
         try {
-            theGottenBitmap = BitmapFactory.decodeFile(path);
+            bitmapFromPath = BitmapFactory.decodeFile(path);
 
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
         }
 
-        return theGottenBitmap;
+        return bitmapFromPath;
     }
 
+
     /**
-     * Returns the String path of the last image that was saved with this Object
+     * Returns the String path of the last saved image
      * @return string path of the last saved image
      */
     public String getSavedImagePath() {
         return lastImagePath;
     }
 
+
     /**
-     * Returns the String path of the last image that was saved with this
+     * Saves 'theBitmap' into folder 'theFolder' with the name 'theImageName'
      * @param theFolder the folder path dir you want to save it to e.g "DropBox/WorkImages"
-     * @param theImageName the name you want to assign to the image file e.g "MeAtlunch.png"
+     * @param theImageName the name you want to assign to the image file e.g "MeAtLunch.png"
+     * @param theBitmap the image you want to save as a Bitmap
+     * @return true if image was saved, false otherwise
      */
-    public String putImagePNG(String theFolder, String theImageName, Bitmap theBitmap) {
+    public boolean putImage(String theFolder, String theImageName, Bitmap theBitmap) {
+        if (theFolder == null || theImageName == null || theBitmap == null)
+            return false;
 
         this.DEFAULT_APP_IMAGEDATA_DIRECTORY = theFolder;
-        String mFullPath = setupFolderPath(theImageName);
-        saveBitmapPNG(mFullPath, theBitmap);
-        lastImagePath = mFullPath;
-        return mFullPath;
+        String mFullPath = setupFullPath(theImageName);
+
+        if (!mFullPath.equals("")) {
+            lastImagePath = mFullPath;
+            return saveBitmap(mFullPath, theBitmap);
+        }
+
+        return false;
     }
 
-    public Boolean putImagePNGwithfullPath(String fullPath, Bitmap theBitmap) {
-        return saveBitmapPNG(fullPath, theBitmap);
+
+    /**
+     * Saves 'theBitmap' into 'fullPath'
+     * @param fullPath full path of the image file e.g. "Images/MeAtLunch.png"
+     * @param theBitmap the image you want to save as a Bitmap
+     * @return true if image was saved, false otherwise
+     */
+    public boolean putImageWithFullPath(String fullPath, Bitmap theBitmap) {
+        return !(fullPath == null || theBitmap == null) && saveBitmap(fullPath, theBitmap);
     }
 
-    private String setupFolderPath(String imageName) {
-        File sdcard_path = Environment.getExternalStorageDirectory();
-        mFolder = new File(sdcard_path, DEFAULT_APP_IMAGEDATA_DIRECTORY);
+    /**
+     * Creates the path for the image with name 'imageName' in DEFAULT_APP.. directory
+     * @param imageName name of the image
+     * @return the full path of the image. If it failed to create directory, return empty string
+     */
+    private String setupFullPath(String imageName) {
+        File mFolder = new File(Environment.getExternalStorageDirectory(), DEFAULT_APP_IMAGEDATA_DIRECTORY);
 
-        if (!mFolder.exists()) {
+        if (isExternalStorageReadable() && isExternalStorageWritable() && !mFolder.exists()) {
             if (!mFolder.mkdirs()) {
-                Log.e("While creatingsave path", "Default Save Path Creation Error");
-                // Toast("Default Save Path Creation Error");
+                Log.e("ERROR", "Failed to setup folder");
+                return "";
             }
         }
 
         return mFolder.getPath() + '/' + imageName;
     }
 
-    private boolean saveBitmapPNG(String strFileName, Bitmap bitmap) {
-        if (strFileName == null || bitmap == null)
+    /**
+     * Saves the Bitmap as a PNG file at path 'fullPath'
+     * @param fullPath path of the image file
+     * @param bitmap the image as a Bitmap
+     * @return true if it successfully saved, false otherwise
+     */
+    private boolean saveBitmap(String fullPath, Bitmap bitmap) {
+        if (fullPath == null || bitmap == null)
             return false;
 
-        boolean bSuccess1 = false;
-        boolean bSuccess2;
-        boolean bSuccess3;
-        File saveFile = new File(strFileName);
+        boolean fileCreated = false;
+        boolean bitmapCompressed = false;
+        boolean streamClosed = false;
 
-        if (saveFile.exists()) {
-            if (!saveFile.delete())
+        File imageFile = new File(fullPath);
+
+        if (imageFile.exists())
+            if (!imageFile.delete())
                 return false;
-        }
 
         try {
-            bSuccess1 = saveFile.createNewFile();
-
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-
-        OutputStream out = null;
-        try {
-            out = new FileOutputStream(saveFile);
-            bSuccess2 = bitmap.compress(CompressFormat.PNG, 100, out);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            bSuccess2 = false;
-        }
-
-        try {
-            if (out != null) {
-                out.flush();
-                out.close();
-                bSuccess3 = true;
-            } else
-                bSuccess3 = false;
+            fileCreated = imageFile.createNewFile();
 
         } catch (IOException e) {
             e.printStackTrace();
-            bSuccess3 = false;
+        }
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(imageFile);
+            bitmapCompressed = bitmap.compress(CompressFormat.PNG, 100, out);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            bitmapCompressed = false;
 
         } finally {
             if (out != null) {
                 try {
+                    out.flush();
                     out.close();
+                    streamClosed = true;
 
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
+                    streamClosed = false;
                 }
             }
         }
 
-        return (bSuccess1 && bSuccess2 && bSuccess3);
+        return (fileCreated && bitmapCompressed && streamClosed);
     }
 
-    public int getInt(String key) {
-        return preferences.getInt(key, 0);
+    // Getters
+
+    /**
+     * Get int value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * @param key SharedPreferences key
+     * @param defaultValue int value returned if key was not found
+     * @return int value at 'key' or 'defaultValue' if key not found
+     */
+    public int getInt(String key, int defaultValue) {
+        return preferences.getInt(key, defaultValue);
     }
 
-    public long getLong(String key) {
-        return preferences.getLong(key, 0l);
+    /**
+     * Get parsed ArrayList of Integers from SharedPreferences at 'key'
+     * @param key SharedPreferences key
+     * @return ArrayList of Integers
+     */
+    public ArrayList<Integer> getListInt(String key) {
+        String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
+        ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
+        ArrayList<Integer> newList = new ArrayList<Integer>();
+
+        for (String item : arrayToList)
+            newList.add(Integer.parseInt(item));
+
+        return newList;
     }
 
-    public String getString(String key) {
-        return preferences.getString(key, "");
+    /**
+     * Get long value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * @param key SharedPreferences key
+     * @param defaultValue long value returned if key was not found
+     * @return long value at 'key' or 'defaultValue' if key not found
+     */
+    public long getLong(String key, long defaultValue) {
+        return preferences.getLong(key, defaultValue);
     }
 
-    public double getDouble(String key) {
+    /**
+     * Get float value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * @param key SharedPreferences key
+     * @param defaultValue float value returned if key was not found
+     * @return float value at 'key' or 'defaultValue' if key not found
+     */
+    public float getFloat(String key, float defaultValue) {
+        return preferences.getFloat(key, defaultValue);
+    }
+
+    /**
+     * Get double value from SharedPreferences at 'key'. If exception thrown, return 'defaultValue'
+     * @param key SharedPreferences key
+     * @param defaultValue double value returned if exception is thrown
+     * @return double value at 'key' or 'defaultValue' if exception is thrown
+     */
+    public double getDouble(String key, double defaultValue) {
         String number = getString(key);
 
         try {
             return Double.parseDouble(number);
 
         } catch (NumberFormatException e) {
-            return 0;
+            return defaultValue;
         }
     }
 
+    /**
+     * Get parsed ArrayList of Double from SharedPreferences at 'key'
+     * @param key SharedPreferences key
+     * @return ArrayList of Double
+     */
+    public ArrayList<Double> getListDouble(String key) {
+        String[] myList = TextUtils.split(preferences.getString(key, ""), "â€šâ€—â€š");
+        ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
+        ArrayList<Double> newList = new ArrayList<Double>();
+
+        for (String item : arrayToList)
+            newList.add(Double.parseDouble(item));
+
+        return newList;
+    }
+
+    /**
+     * Get String value from SharedPreferences at 'key'. If key not found, return ""
+     * @param key SharedPreferences key
+     * @return String value at 'key' or "" (empty String) if key not found
+     */
+    public String getString(String key) {
+        return preferences.getString(key, "");
+    }
+
+    /**
+     * Get parsed ArrayList of String from SharedPreferences at 'key'
+     * @param key SharedPreferences key
+     * @return ArrayList of String
+     */
+    public ArrayList<String> getListString(String key) {
+        return new ArrayList<String>(Arrays.asList(TextUtils.split(preferences.getString(key, ""), "‚‗‚")));
+    }
+
+    /**
+     * Get boolean value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * @param key SharedPreferences key
+     * @param defaultValue boolean value returned if key was not found
+     * @return boolean value at 'key' or 'defaultValue' if key not found
+     */
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return preferences.getBoolean(key, defaultValue);
+    }
+
+    /**
+     * Get parsed ArrayList of Boolean from SharedPreferences at 'key'
+     * @param key SharedPreferences key
+     * @return ArrayList of Boolean
+     */
+    public ArrayList<Boolean> getListBoolean(String key) {
+        ArrayList<String> myList = getListString(key);
+        ArrayList<Boolean> newList = new ArrayList<Boolean>();
+
+        for (String item : myList) {
+            if (item.equals("true")) {
+                newList.add(true);
+            } else {
+                newList.add(false);
+            }
+        }
+
+        return newList;
+    }
+
+    // Put methods
+
+    /**
+     * Put int value into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param value int value to be added
+     */
     public void putInt(String key, int value) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(key, value);
-        editor.apply();
+        preferences.edit().putInt(key, value).apply();
     }
 
+    /**
+     * Put ArrayList of Integer into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param intList ArrayList of Integer to be added
+     */
+    public void putListInt(String key, ArrayList<Integer> intList) {
+        Integer[] myIntList = intList.toArray(new Integer[intList.size()]);
+        preferences.edit().putString(key, TextUtils.join("‚‗‚", myIntList)).apply();
+    }
+
+    /**
+     * Put long value into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param value long value to be added
+     */
     public void putLong(String key, long value) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putLong(key, value);
-        editor.apply();
+        preferences.edit().putLong(key, value).apply();
     }
 
+    /**
+     * Put float value into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param value float value to be added
+     */
+    public void putFloat(String key, float value) {
+        preferences.edit().putFloat(key, value).apply();
+    }
+
+    /**
+     * Put double value into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param value double value to be added
+     */
     public void putDouble(String key, double value) {
         putString(key, String.valueOf(value));
     }
 
+    /**
+     * Put ArrayList of Double into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param doubleList ArrayList of Double to be added
+     */
+    public void putListDouble(String key, ArrayList<Double> doubleList) {
+        Double[] myDoubleList = doubleList.toArray(new Double[doubleList.size()]);
+        preferences.edit().putString(key, TextUtils.join("â€šâ€—â€š", myDoubleList)).apply();
+    }
+
+    /**
+     * Put String value into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param value String value to be added
+     */
     public void putString(String key, String value) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(key, value);
-        editor.apply();
+        preferences.edit().putString(key, value).apply();
     }
 
-    public void putList(String key, ArrayList<String> marray) {
-        SharedPreferences.Editor editor = preferences.edit();
-        String[] mystringlist = marray.toArray(new String[marray.size()]);
-        // the comma like character used below is not a comma it is the SINGLE
-        // LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
-        // seprating the items in the list
-        editor.putString(key, TextUtils.join("‚‗‚", mystringlist));
-        editor.apply();
+    /**
+     * Put ArrayList of String into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param stringList ArrayList of String to be added
+     */
+    public void putListString(String key, ArrayList<String> stringList) {
+        String[] myStringList = stringList.toArray(new String[stringList.size()]);
+        preferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
     }
 
-    public ArrayList<String> getList(String key) {
-        // the comma like character used below is not a comma it is the SINGLE
-        // LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
-        // seprating the items in the list
-        String[] mylist = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
-        return new ArrayList<String>(Arrays.asList(mylist));
-    }
-
-    public void putListInt(String key, ArrayList<Integer> marray) {
-        SharedPreferences.Editor editor = preferences.edit();
-        Integer[] mystringlist = marray.toArray(new Integer[marray.size()]);
-        // the comma like character used below is not a comma it is the SINGLE
-        // LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
-        // seprating the items in the list
-        editor.putString(key, TextUtils.join("‚‗‚", mystringlist));
-        editor.apply();
-    }
-
-    public ArrayList<Integer> getListInt(String key) {
-        // the comma like character used below is not a comma it is the SINGLE
-        // LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
-        // seprating the items in the list
-        String[] mylist = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
-        ArrayList<String> gottenlist = new ArrayList<String>(Arrays.asList(mylist));
-        ArrayList<Integer> gottenlist2 = new ArrayList<Integer>();
-
-        for (int i = 0; i < gottenlist.size(); i++) {
-            gottenlist2.add(Integer.parseInt(gottenlist.get(i)));
-        }
-
-        return gottenlist2;
-    }
-
-    public void putListDouble(String key, ArrayList<Double> marray) {
-        SharedPreferences.Editor editor = preferences.edit();
-        Double[] mystringlist = marray.toArray(new Double[marray.size()]);
-        // the comma like character used below is not a comma it is the SINGLE
-        // LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
-        // seprating the items in the list
-        editor.putString(key, TextUtils.join("â€šâ€—â€š", mystringlist));
-        editor.apply();
-    }
-
-    public ArrayList<Double> getListDouble(String key) {
-        // the comma like character used below is not a comma it is the SINGLE
-        // LOW-9 QUOTATION MARK unicode 201A and unicode 2017 they are used for
-        // seprating the items in the list
-        String[] mylist = TextUtils.split(preferences.getString(key, ""), "â€šâ€—â€š");
-        ArrayList<String> gottenlist = new ArrayList<String>(Arrays.asList(mylist));
-        ArrayList<Double> gottenlist2 = new ArrayList<Double>();
-
-        for (int i = 0; i < gottenlist.size(); i++) {
-            gottenlist2.add(Double.parseDouble(gottenlist.get(i)));
-        }
-
-        return gottenlist2;
-    }
-
-    public void putListBoolean(String key, ArrayList<Boolean> marray) {
-        ArrayList<String> origList = new ArrayList<String>();
-
-        for (Boolean b : marray) {
-            if (b) {
-                origList.add("true");
-            } else {
-                origList.add("false");
-            }
-        }
-
-        putList(key, origList);
-    }
-
-    public ArrayList<Boolean> getListBoolean(String key) {
-        ArrayList<String> origList = getList(key);
-        ArrayList<Boolean> mBools = new ArrayList<Boolean>();
-
-        for (String b : origList) {
-            if (b.equals("true")) {
-                mBools.add(true);
-            } else {
-                mBools.add(false);
-            }
-        }
-
-        return mBools;
-    }
-
+    /**
+     * Put boolean value into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param value boolean value to be added
+     */
     public void putBoolean(String key, boolean value) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(key, value);
-        editor.apply();
+        preferences.edit().putBoolean(key, value).apply();
     }
 
-    public boolean getBoolean(String key) {
-        return preferences.getBoolean(key, false);
+    /**
+     * Put ArrayList of Boolean into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param boolList ArrayList of Boolean to be added
+     */
+    public void putListBoolean(String key, ArrayList<Boolean> boolList) {
+        ArrayList<String> newList = new ArrayList<String>();
+
+        for (Boolean item : boolList) {
+            if (item) {
+                newList.add("true");
+            } else {
+                newList.add("false");
+            }
+        }
+
+        putListString(key, newList);
     }
 
-    public void putFloat(String key, float value) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putFloat(key, value);
-        editor.apply();
-    }
 
-    public float getFloat(String key) {
-        return preferences.getFloat(key, 0f);
-    }
-
+    /**
+     * Remove SharedPreferences item with 'key'
+     * @param key SharedPreferences key
+     */
     public void remove(String key) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(key);
-        editor.apply();
+        preferences.edit().remove(key).apply();
     }
 
-    public Boolean deleteImage(String path) {
-        File tobedeletedImage = new File(path);
-        return tobedeletedImage.delete();
+    /**
+     * Delete image file at 'path'
+     * @param path path of image file
+     * @return true if it successfully deleted, false otherwise
+     */
+    public boolean deleteImage(String path) {
+        return new File(path).delete();
     }
 
+
+    /**
+     * Clear SharedPreferences (remove everything)
+     */
     public void clear() {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
+        preferences.edit().clear().apply();
     }
 
+    /**
+     * Retrieve all values from SharedPreferences. Do not modify collection return by method
+     * @return a Map representing a list of key/value pairs from SharedPreferences
+     */
     public Map<String, ?> getAll() {
         return preferences.getAll();
     }
 
+
+    /**
+     * Register SharedPreferences change listener
+     * @param listener listener object of OnSharedPreferenceChangeListener
+     */
     public void registerOnSharedPreferenceChangeListener(
             SharedPreferences.OnSharedPreferenceChangeListener listener) {
 
         preferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
+    /**
+     * Unregister SharedPreferences change listener
+     * @param listener listener object of OnSharedPreferenceChangeListener to be unregistered
+     */
     public void unregisterOnSharedPreferenceChangeListener(
             SharedPreferences.OnSharedPreferenceChangeListener listener) {
 
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+
+    /**
+     * Check if external storage is writable or not
+     * @return true if writable, false otherwise
+     */
+    public static boolean isExternalStorageWritable() {
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
+    /**
+     * Check if external storage is readable or not
+     * @return true if readable, false otherwise
+     */
+    public static boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 }
