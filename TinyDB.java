@@ -19,7 +19,7 @@
  *  and unicode 2017 that are used for separating the items in a list.
  */
 
-package com.moonpi.swiftnotes;
+package com.example.myappname;
 
 import java.io.File;
 import java.io.FileOutputStream;
