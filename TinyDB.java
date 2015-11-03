@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+//import com.google.gson.Gson;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -83,21 +85,21 @@ public class TinyDB {
      * @param theFolder the folder path dir you want to save it to e.g "DropBox/WorkImages"
      * @param theImageName the name you want to assign to the image file e.g "MeAtLunch.png"
      * @param theBitmap the image you want to save as a Bitmap
-     * @return true if image was saved, false otherwise
+     * @return returns the full path(file system address) of the saved image
      */
-    public boolean putImage(String theFolder, String theImageName, Bitmap theBitmap) {
+    public String putImage(String theFolder, String theImageName, Bitmap theBitmap) {
         if (theFolder == null || theImageName == null || theBitmap == null)
-            return false;
+            return null;
 
         this.DEFAULT_APP_IMAGEDATA_DIRECTORY = theFolder;
         String mFullPath = setupFullPath(theImageName);
 
         if (!mFullPath.equals("")) {
             lastImagePath = mFullPath;
-            return saveBitmap(mFullPath, theBitmap);
+            saveBitmap(mFullPath, theBitmap);
         }
 
-        return false;
+        return mFullPath;
     }
 
 
@@ -190,8 +192,8 @@ public class TinyDB {
      * @param defaultValue int value returned if key was not found
      * @return int value at 'key' or 'defaultValue' if key not found
      */
-    public int getInt(String key, int defaultValue) {
-        return preferences.getInt(key, defaultValue);
+    public int getInt(String key) {
+        return preferences.getInt(key, 0);
     }
 
     /**
@@ -226,8 +228,8 @@ public class TinyDB {
      * @param defaultValue float value returned if key was not found
      * @return float value at 'key' or 'defaultValue' if key not found
      */
-    public float getFloat(String key, float defaultValue) {
-        return preferences.getFloat(key, defaultValue);
+    public float getFloat(String key) {
+        return preferences.getFloat(key, 0);
     }
 
     /**
@@ -253,7 +255,7 @@ public class TinyDB {
      * @return ArrayList of Double
      */
     public ArrayList<Double> getListDouble(String key) {
-        String[] myList = TextUtils.split(preferences.getString(key, ""), "â€šâ€—â€š");
+        String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
         ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
         ArrayList<Double> newList = new ArrayList<Double>();
 
@@ -287,8 +289,8 @@ public class TinyDB {
      * @param defaultValue boolean value returned if key was not found
      * @return boolean value at 'key' or 'defaultValue' if key not found
      */
-    public boolean getBoolean(String key, boolean defaultValue) {
-        return preferences.getBoolean(key, defaultValue);
+    public boolean getBoolean(String key) {
+        return preferences.getBoolean(key, false);
     }
 
     /**
@@ -311,6 +313,32 @@ public class TinyDB {
         return newList;
     }
 
+
+//    public ArrayList<Object> getListObject(String key, Class<?> mClass){
+//    	Gson gson = new Gson(); 
+//    	
+//    	ArrayList<String> objStrings = getListString(key);
+//    	ArrayList<Object> objects =  new ArrayList<Object>();
+//    	
+//    	for(String jObjString : objStrings){
+//    		Object value  = gson.fromJson(jObjString,  mClass);
+//    		objects.add(value);
+//    	}
+//    	return objects;
+//    }
+    
+
+    
+//    public  Object getObject(String key, Class<?> classOfT){
+//
+//        String json = getString(key);
+//        Object value = new Gson().fromJson(json, classOfT);
+//        if (value == null)
+//            throw new NullPointerException();
+//        return value;
+//    }
+    
+    
     // Put methods
 
     /**
@@ -319,6 +347,7 @@ public class TinyDB {
      * @param value int value to be added
      */
     public void putInt(String key, int value) {
+    	checkForNullKey(key);
         preferences.edit().putInt(key, value).apply();
     }
 
@@ -328,6 +357,7 @@ public class TinyDB {
      * @param intList ArrayList of Integer to be added
      */
     public void putListInt(String key, ArrayList<Integer> intList) {
+    	checkForNullKey(key);
         Integer[] myIntList = intList.toArray(new Integer[intList.size()]);
         preferences.edit().putString(key, TextUtils.join("‚‗‚", myIntList)).apply();
     }
@@ -338,6 +368,7 @@ public class TinyDB {
      * @param value long value to be added
      */
     public void putLong(String key, long value) {
+    	checkForNullKey(key);
         preferences.edit().putLong(key, value).apply();
     }
 
@@ -347,6 +378,7 @@ public class TinyDB {
      * @param value float value to be added
      */
     public void putFloat(String key, float value) {
+    	checkForNullKey(key);
         preferences.edit().putFloat(key, value).apply();
     }
 
@@ -356,6 +388,7 @@ public class TinyDB {
      * @param value double value to be added
      */
     public void putDouble(String key, double value) {
+    	checkForNullKey(key);
         putString(key, String.valueOf(value));
     }
 
@@ -365,8 +398,9 @@ public class TinyDB {
      * @param doubleList ArrayList of Double to be added
      */
     public void putListDouble(String key, ArrayList<Double> doubleList) {
+    	checkForNullKey(key);
         Double[] myDoubleList = doubleList.toArray(new Double[doubleList.size()]);
-        preferences.edit().putString(key, TextUtils.join("â€šâ€—â€š", myDoubleList)).apply();
+        preferences.edit().putString(key, TextUtils.join("‚‗‚", myDoubleList)).apply();
     }
 
     /**
@@ -375,6 +409,7 @@ public class TinyDB {
      * @param value String value to be added
      */
     public void putString(String key, String value) {
+    	checkForNullKey(key); checkForNullValue(value);
         preferences.edit().putString(key, value).apply();
     }
 
@@ -384,6 +419,7 @@ public class TinyDB {
      * @param stringList ArrayList of String to be added
      */
     public void putListString(String key, ArrayList<String> stringList) {
+    	checkForNullKey(key);
         String[] myStringList = stringList.toArray(new String[stringList.size()]);
         preferences.edit().putString(key, TextUtils.join("‚‗‚", myStringList)).apply();
     }
@@ -394,6 +430,7 @@ public class TinyDB {
      * @param value boolean value to be added
      */
     public void putBoolean(String key, boolean value) {
+    	checkForNullKey(key);
         preferences.edit().putBoolean(key, value).apply();
     }
 
@@ -403,6 +440,7 @@ public class TinyDB {
      * @param boolList ArrayList of Boolean to be added
      */
     public void putListBoolean(String key, ArrayList<Boolean> boolList) {
+    	checkForNullKey(key);
         ArrayList<String> newList = new ArrayList<String>();
 
         for (Boolean item : boolList) {
@@ -415,8 +453,28 @@ public class TinyDB {
 
         putListString(key, newList);
     }
-
-
+    
+    /**
+     * Put ObJect any type into SharedPrefrences with 'key' and save
+     * @param key SharedPreferences key
+     * @param obj is the Object you want to put 
+     */
+//    public void putObject(String key, Object obj){
+//    	checkForNullKey(key);
+//    	Gson gson = new Gson(); 
+//    	putString(key, gson.toJson(obj));
+//    }
+//    
+//    public void putListObject(String key, ArrayList<Object> objArray){
+//    	checkForNullKey(key); 
+//    	Gson gson = new Gson(); 
+//    	ArrayList<String> objStrings = new ArrayList<String>();
+//    	for(Object obj : objArray){
+//    		objStrings.add(gson.toJson(obj));
+//    	}
+//    	putListString(key, objStrings);
+//    }
+    
     /**
      * Remove SharedPreferences item with 'key'
      * @param key SharedPreferences key
@@ -489,5 +547,23 @@ public class TinyDB {
 
         return Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
+    }
+    /**
+     * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
+     * @param the pref key
+     */
+    public void checkForNullKey(String key){
+    	 if (key == null){
+    		 throw new NullPointerException(); 
+    	 }
+    }
+    /**
+     * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
+     * @param the pref key
+     */
+    public void checkForNullValue(String value){
+    	 if (value == null){
+    		 throw new NullPointerException(); 
+    	 }
     }
 }
