@@ -4,7 +4,7 @@ This class simplifies calls to SharedPreferences in a line of code. It can also 
 
 **Example usage:**
 ```
-TinyDB tinydb = new TinyDB(context);
+TinyDB tinydb = new TinyDB("setting",context);
 
 tinydb.putInt("clickCount", 2);
 tinydb.putFloat("xPoint", 3.6f);
