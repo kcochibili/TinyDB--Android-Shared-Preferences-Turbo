@@ -35,7 +35,7 @@ Person person = new Person("john", 24);
 tinydb.putObject("user1", person);
 
 ArrayList<Person> usersWhoWon = new ArrayList<Person>();
-tinydb.putListObject("allWinners" usersWhoWon);
+tinydb.putListObject("allWinners", usersWhoWon);
 ```
 Before you can use the save objects methods, you must first 
 
