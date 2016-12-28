@@ -4,7 +4,7 @@ package kcochibili.android.sharedpref.turbo.gson.api;
 public class Gson {
 
 	static private ComponentInstaller<GsonComponent> componentInstaller = new ComponentInstaller<GsonComponent>(
-			"Angles");
+			"GsonComponent");
 
 	public static final void installComponent(final GsonComponent component_to_install) {
 		componentInstaller.installComponent(component_to_install);
