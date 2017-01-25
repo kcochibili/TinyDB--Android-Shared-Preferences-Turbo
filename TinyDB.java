@@ -192,8 +192,8 @@ public class TinyDB {
      * @param defaultValue int value returned if key was not found
      * @return int value at 'key' or 'defaultValue' if key not found
      */
-    public int getInt(String key) {
-        return preferences.getInt(key, 0);
+    public int getInt(String key, int defaultValue) {
+        return preferences.getInt(key, defaultValue);
     }
 
     /**
@@ -228,8 +228,8 @@ public class TinyDB {
      * @param defaultValue float value returned if key was not found
      * @return float value at 'key' or 'defaultValue' if key not found
      */
-    public float getFloat(String key) {
-        return preferences.getFloat(key, 0);
+    public float getFloat(String key, float defaultValue) {
+        return preferences.getFloat(key, defaultValue);
     }
 
     /**
@@ -289,8 +289,8 @@ public class TinyDB {
      * @param defaultValue boolean value returned if key was not found
      * @return boolean value at 'key' or 'defaultValue' if key not found
      */
-    public boolean getBoolean(String key) {
-        return preferences.getBoolean(key, false);
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return preferences.getBoolean(key, defaultValue);
     }
 
     /**
