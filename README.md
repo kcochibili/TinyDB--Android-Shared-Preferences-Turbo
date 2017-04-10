@@ -6,6 +6,7 @@ This class simplifies calls to SharedPreferences in a line of code. It can also 
 ```
 TinyDB tinydb = new TinyDB(context);
 
+//Put data in database
 tinydb.putInt("clickCount", 2);
 tinydb.putFloat("xPoint", 3.6f);
 tinydb.putLong("userCount", 39832L);
@@ -16,6 +17,9 @@ tinydb.putBoolean("isUserMale", true);
 tinydb.putList("MyUsers", mUsersArray);
 tinydb.putImagePNG("DropBox/WorkImages", "MeAtlunch.png", lunchBitmap);
 
+//Get data from database
+int dataint = tinyDB.getInt("clickCount");
+String datastring = tinyDB.getString("userName");
 //These plus the corresponding get methods are all included
 ```
 
@@ -50,3 +54,7 @@ Before you can use the save objects methods, you must first
 [4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L462
 [5]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L468
 [6]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31
+
+
+**Installation:**
+Just add the TinyDB.java file as a Java Class and you can now use it by exemples showed above in your code.
