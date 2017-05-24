@@ -329,13 +329,13 @@ public class TinyDB {
     
 
     
-//    public  Object getObject(String key, Class<?> classOfT){
+//    public <T> T getObject(String key, Class<T> classOfT){
 //
 //        String json = getString(key);
 //        Object value = new Gson().fromJson(json, classOfT);
 //        if (value == null)
 //            throw new NullPointerException();
-//        return value;
+//        return (T)value;
 //    }
     
     
