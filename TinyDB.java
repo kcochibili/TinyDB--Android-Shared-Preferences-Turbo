@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -313,7 +314,6 @@ public class TinyDB {
         return newList;
     }
 
-
 //    public ArrayList<Object> getListObject(String key, Class<?> mClass){
 //    	Gson gson = new Gson(); 
 //    	
@@ -327,8 +327,6 @@ public class TinyDB {
 //    	return objects;
 //    }
     
-
-    
 //    public <T> T getObject(String key, Class<T> classOfT){
 //
 //        String json = getString(key);
@@ -337,7 +335,23 @@ public class TinyDB {
 //            throw new NullPointerException();
 //        return (T)value;
 //    }
-    
+
+//    /**
+//     * Get Objects from SharedPreferences at 'key'
+//     *
+//     * @param 	key 		SharedPreferences key
+//     * @param 	token 	    Gson token determing desired return type
+//     * @param	gson	    Custom Gson object
+//     * @return 				Stored Object
+//     */
+//    public <T> T getObject(String key, TypeToken<T> token, Gson gson) {
+//
+//        String json = getString(key);
+//        T value = gson.fromJson(json, token.getType());
+//        if (value == null)
+//            throw new NullPointerException();
+//        return value;
+//    }
     
     // Put methods
 
