@@ -266,6 +266,22 @@ public class TinyDB {
     }
 
     /**
+     * Get parsed ArrayList of Integers from SharedPreferences at 'key'
+     * @param key SharedPreferences key
+     * @return ArrayList of Longs
+     */
+    public ArrayList<Long> getListLong(String key) {
+        String[] myList = TextUtils.split(preferences.getString(key, ""), "‚‗‚");
+        ArrayList<String> arrayToList = new ArrayList<String>(Arrays.asList(myList));
+        ArrayList<Long> newList = new ArrayList<Long>();
+
+        for (String item : arrayToList)
+            newList.add(Long.parseLong(item));
+
+        return newList;
+    }
+
+    /**
      * Get String value from SharedPreferences at 'key'. If key not found, return ""
      * @param key SharedPreferences key
      * @return String value at 'key' or "" (empty String) if key not found
@@ -370,6 +386,17 @@ public class TinyDB {
     public void putLong(String key, long value) {
     	checkForNullKey(key);
         preferences.edit().putLong(key, value).apply();
+    }
+
+    /**
+     * Put ArrayList of Long into SharedPreferences with 'key' and save
+     * @param key SharedPreferences key
+     * @param longList ArrayList of Long to be added
+     */
+    public void putListLong(String key, ArrayList<Long> longList) {
+        checkForNullKey(key);
+        Long[] myLongList = longList.toArray(new Long[longList.size()]);
+        preferences.edit().putString(key, TextUtils.join("‚‗‚", myLongList)).apply();
     }
 
     /**
