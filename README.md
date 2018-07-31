@@ -36,7 +36,8 @@ tinydb.putListObject(key, objectsArray);
 **Example of saving Objects:**
 ```
 Person person = new Person("john", 24);
-tinydb.putObject("user1", person);
+tinydb.putObject("user1", person); //saves the object
+tinydb.getObject("user1", Person.class); // retrieves the object from storage
 
 ArrayList<Person> usersWhoWon = new ArrayList<Person>();
 tinydb.putListObject("allWinners", usersWhoWon);
