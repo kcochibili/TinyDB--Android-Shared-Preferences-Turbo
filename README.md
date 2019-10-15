@@ -59,4 +59,4 @@ Before you can use the save objects methods, you must first:
 
 
 **Installation:**
-Just add the TinyDB.java file as a Java Class and you can now use it by examples showed above in your code.
+Just add the TinyDB.java file as a Java Class and you can now use it according to the examples shown above.
