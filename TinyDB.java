@@ -218,8 +218,8 @@ public class TinyDB {
      * @param defaultValue long value returned if key was not found
      * @return long value at 'key' or 'defaultValue' if key not found
      */
-    public long getLong(String key, long defaultValue) {
-        return preferences.getLong(key, defaultValue);
+    public long getLong(String key) {
+        return preferences.getLong(key, 0);
     }
 
     /**
@@ -238,14 +238,14 @@ public class TinyDB {
      * @param defaultValue double value returned if exception is thrown
      * @return double value at 'key' or 'defaultValue' if exception is thrown
      */
-    public double getDouble(String key, double defaultValue) {
+    public double getDouble(String key) {
         String number = getString(key);
 
         try {
             return Double.parseDouble(number);
 
         } catch (NumberFormatException e) {
-            return defaultValue;
+            return 0;
         }
     }
 
