@@ -187,10 +187,9 @@ public class TinyDB {
     // Getters
 
     /**
-     * Get int value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * Get int value from SharedPreferences at 'key'. If key not found, return 0
      * @param key SharedPreferences key
-     * @param defaultValue int value returned if key was not found
-     * @return int value at 'key' or 'defaultValue' if key not found
+     * @return int value at 'key' or 0 if key not found
      */
     public int getInt(String key) {
         return preferences.getInt(key, 0);
@@ -213,30 +212,27 @@ public class TinyDB {
     }
 
     /**
-     * Get long value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * Get long value from SharedPreferences at 'key'. If key not found, return 0
      * @param key SharedPreferences key
-     * @param defaultValue long value returned if key was not found
-     * @return long value at 'key' or 'defaultValue' if key not found
+     * @return long value at 'key' or 0 if key not found
      */
     public long getLong(String key) {
         return preferences.getLong(key, 0);
     }
 
     /**
-     * Get float value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * Get float value from SharedPreferences at 'key'. If key not found, return 0
      * @param key SharedPreferences key
-     * @param defaultValue float value returned if key was not found
-     * @return float value at 'key' or 'defaultValue' if key not found
+     * @return float value at 'key' or 0 if key not found
      */
     public float getFloat(String key) {
         return preferences.getFloat(key, 0);
     }
 
     /**
-     * Get double value from SharedPreferences at 'key'. If exception thrown, return 'defaultValue'
+     * Get double value from SharedPreferences at 'key'. If exception thrown, return 0
      * @param key SharedPreferences key
-     * @param defaultValue double value returned if exception is thrown
-     * @return double value at 'key' or 'defaultValue' if exception is thrown
+     * @return double value at 'key' or 0 if exception is thrown
      */
     public double getDouble(String key) {
         String number = getString(key);
@@ -300,10 +296,9 @@ public class TinyDB {
     }
 
     /**
-     * Get boolean value from SharedPreferences at 'key'. If key not found, return 'defaultValue'
+     * Get boolean value from SharedPreferences at 'key'. If key not found, return false
      * @param key SharedPreferences key
-     * @param defaultValue boolean value returned if key was not found
-     * @return boolean value at 'key' or 'defaultValue' if key not found
+     * @return boolean value at 'key' or false if key not found
      */
     public boolean getBoolean(String key) {
         return preferences.getBoolean(key, false);
