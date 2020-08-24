@@ -572,7 +572,7 @@ public class TinyDB {
     }
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
-     * @param the pref key
+     * @param key the pref key
      */
     public void checkForNullKey(String key){
     	 if (key == null){
@@ -580,8 +580,8 @@ public class TinyDB {
     	 }
     }
     /**
-     * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
-     * @param the pref key
+     * null values would corrupt the shared pref file and make them unreadable this is a preventive measure
+     * @param value the pref value
      */
     public void checkForNullValue(String value){
     	 if (value == null){
