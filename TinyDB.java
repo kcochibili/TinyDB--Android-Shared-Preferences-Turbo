@@ -572,20 +572,20 @@ public class TinyDB {
     }
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
-     * @param the pref key
+     * @param key the pref key to check
      */
-    public void checkForNullKey(String key){
-    	 if (key == null){
-    		 throw new NullPointerException(); 
-    	 }
+    private void checkForNullKey(String key){
+        if (key == null){
+            throw new NullPointerException();
+        }
     }
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
-     * @param the pref key
+     * @param value the pref value to check
      */
-    public void checkForNullValue(String value){
-    	 if (value == null){
-    		 throw new NullPointerException(); 
-    	 }
+    private void checkForNullValue(String value){
+        if (value == null){
+            throw new NullPointerException();
+        }
     }
 }
