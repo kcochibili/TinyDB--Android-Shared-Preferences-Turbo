@@ -43,20 +43,21 @@ ArrayList<Person> usersWhoWon = new ArrayList<Person>();
 tinydb.putListObject("allWinners", usersWhoWon);
 ```
 **Kotlin usage sample:**
-       
-            // instantiate
-            var tinyDB : TinyDB = TinyDB(applicationContext)
+```
+// instantiate
+var tinyDB : TinyDB = TinyDB(applicationContext)
 
 
-            // put / save
-            tinyDB.putString("nameKey", "John")
+// put / save
+tinyDB.putString("nameKey", "John")
 
-            var winnerPerson : Person = Person()
-            tinyDB.putObject("winnerKey", winnerPerson);
-            
-            // get
-            var personName : String  = tinyDB.getString("nameKey")
-            var winnerPerson : Person = tinyDB.getObject("winnerKey", Person::class.java)
+var winnerPerson : Person = Person()
+tinyDB.putObject("winnerKey", winnerPerson);
+
+// get
+var personName : String  = tinyDB.getString("nameKey")
+var winnerPerson : Person = tinyDB.getObject("winnerKey", Person::class.java)
+```
 
 Before you can use the save objects methods, you must first: 
 
