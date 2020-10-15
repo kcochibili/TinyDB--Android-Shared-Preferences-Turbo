@@ -42,6 +42,22 @@ tinydb.getObject("user1", Person.class); // retrieves the object from storage
 ArrayList<Person> usersWhoWon = new ArrayList<Person>();
 tinydb.putListObject("allWinners", usersWhoWon);
 ```
+**Kotlin usage sample:**
+       
+            // instantiate
+            var tinyDB : TinyDB = TinyDB(applicationContext)
+
+
+            // put / save
+            tinyDB.putString("nameKey", "John")
+
+            var winnerPerson : Person = Person()
+            tinyDB.putObject("winnerKey", winnerPerson);
+            
+            // get
+            var personName : String  = tinyDB.getString("nameKey")
+            var winnerPerson : Person = tinyDB.getObject("winnerKey", Person::class.java)
+
 Before you can use the save objects methods, you must first: 
 
 1. Download [**Gson.jar**][1]
