@@ -40,7 +40,13 @@ tinydb.putObject("user1", person); //saves the object
 tinydb.getObject("user1", Person.class); // retrieves the object from storage
 
 ArrayList<Person> usersWhoWon = new ArrayList<Person>();
-tinydb.putListObject("allWinners", usersWhoWon);
+ArrayList<Object> winnersObjects = new ArrayList<Object>();
+
+for(Person p : usersWhoWon){
+    winnersObjects.add((Object)p); // casting to raw objects
+}
+
+tinydb.putListObject("allWinners", winnersObjects);
 ```
 **Kotlin usage sample:**
 ```
