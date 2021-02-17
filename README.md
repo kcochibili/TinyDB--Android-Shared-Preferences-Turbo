@@ -71,14 +71,12 @@ Before you can use the save objects methods, you must first:
 
 2. Place the Gson.jar file  into your projects "libs" folder (create one if you dont already have the folder)
 
-3. Uncomment the save objects methods in your copy of TinyDB.java, starting at: [**Line31**][6], [**Line317**][2], [**Line332**][3], [**Line462**][4], [**Line468**][5]
+3. Uncomment the save objects methods in your copy of TinyDB.java, starting at: [**Line31**][2], [**Line333-355**][3], [**Line489-503**][4]
 
 [1]:  http://search.maven.org/#artifactdetails%7Ccom.google.code.gson%7Cgson%7C2.4%7Cjar
-[2]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L317 
-[3]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L332
-[4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L462
-[5]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L468
-[6]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31
+[2]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31
+[3]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L333-L355
+[4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L489-L503
 
 
 **Installation:**
