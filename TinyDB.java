@@ -191,8 +191,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return int value at 'key' or 0 if key not found
      */
-    public int getInt(String key) {
-        return preferences.getInt(key, 0);
+    public int getInt(String key, int defaultValue) {
+        return preferences.getInt(key, defaultValue);
     }
 
     /**
@@ -225,8 +225,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return float value at 'key' or 0 if key not found
      */
-    public float getFloat(String key) {
-        return preferences.getFloat(key, 0);
+    public float getFloat(String key, float defaultValue) {
+        return preferences.getFloat(key, defaultValue);
     }
 
     /**
@@ -300,8 +300,8 @@ public class TinyDB {
      * @param key SharedPreferences key
      * @return boolean value at 'key' or false if key not found
      */
-    public boolean getBoolean(String key) {
-        return preferences.getBoolean(key, false);
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return preferences.getBoolean(key, defaultValue);
     }
 
     /**
