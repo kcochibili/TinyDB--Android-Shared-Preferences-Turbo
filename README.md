@@ -65,21 +65,26 @@ var personName : String  = tinyDB.getString("nameKey")
 var winnerPerson : Person = tinyDB.getObject("winnerKey", Person::class.java)
 ```
 
+
 Before you can use the save objects methods, you must first: 
 
-1. Download [**Gson.jar**][1]
+1. Import Gson into your project
+Gradle:
+```gradle
+dependencies {
+  implementation 'com.google.code.gson:gson:2.8.8'
+}
+```
 
-2. Place the Gson.jar file  into your projects "libs" folder (create one if you dont already have the folder)
-
-3. Uncomment the save objects methods in your copy of TinyDB.java, starting at: [**Line31**][6], [**Line317**][2], [**Line332**][3], [**Line462**][4], [**Line468**][5]
+2. Uncomment the save objects methods in your copy of TinyDB.java, starting at: [**Line31**][5], [**Line330**][2], [**Line345**][3], [**Line486**][4]
 
 [1]:  http://search.maven.org/#artifactdetails%7Ccom.google.code.gson%7Cgson%7C2.4%7Cjar
-[2]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L317 
-[3]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L332
-[4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L462
-[5]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L468
-[6]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31
+[2]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L330 
+[3]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L345
+[4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L486
+[5]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31  
 
 
-**Installation:**
-Just add the TinyDB.java file as a Java Class and you can now use it according to the examples shown above.
+
+### Installation
+Just add the TinyDB.java file as a Java Class into your project.
