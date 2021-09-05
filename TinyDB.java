@@ -572,6 +572,21 @@ public class TinyDB {
         return Environment.MEDIA_MOUNTED.equals(state) ||
                 Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
+    
+    /**
+     * Checks if an object exists in Memory
+     * @param key the pref key to check
+     */
+    public boolean objectExists(String key){
+        String gottenString = getString(key);
+        if(gottenString.isEmpty()){
+            return false;
+        }else {
+            return true;
+        }
+
+    }
+    
     /**
      * null keys would corrupt the shared pref file and make them unreadable this is a preventive measure
      * @param key the pref key to check
