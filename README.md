@@ -3,7 +3,7 @@
 This class simplifies calls to SharedPreferences in a line of code. It can also do more like: saving a list of strings, integers and saving images. All in 1 line of code!
 
 **Example usage:**
-```
+```Java
 TinyDB tinydb = new TinyDB(context);
 
 //Put data in database
@@ -29,12 +29,12 @@ This is just an example of how easy it is to use. There are many more useful met
 
 
 If you'd like to also save Objects, use the methods: 
-```
+```Java
 tinydb.putObject(key, object);
 tinydb.putListObject(key, objectsArray);
 ```
 **Example of saving Objects:**
-```
+```Java
 Person person = new Person("john", 24);
 tinydb.putObject("user1", person); //saves the object
 tinydb.getObject("user1", Person.class); // retrieves the object from storage
@@ -49,7 +49,7 @@ for(Person p : usersWhoWon){
 tinydb.putListObject("allWinners", winnersObjects);
 ```
 **Kotlin usage sample:**
-```
+```Kotlin
 // instantiate
 var tinyDB : TinyDB = TinyDB(applicationContext)
 
