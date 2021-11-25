@@ -83,7 +83,7 @@ dependencies {
 [3]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L345
 [4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L486
 [5]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31  
-[6]:  https://www.youtube.com/channel/UC2myXhhqBWc1cQMqSZYh-wg/playlists
+[6]:  https://bit.ly/learn_app_dev_videos
 
 
 
