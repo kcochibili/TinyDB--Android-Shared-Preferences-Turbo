@@ -93,4 +93,4 @@ Just add the TinyDB.java file as a Java Class into your project.
 
 
 ### Learning app developement?
-Check out my easy to follow course [**on youtube**][6]
+Check out my very easy videos [**on youtube**][6]
