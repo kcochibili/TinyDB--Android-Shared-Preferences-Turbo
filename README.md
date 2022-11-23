@@ -84,6 +84,7 @@ dependencies {
 [4]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L486
 [5]:  https://github.com/kcochibili/TinyDB--Android-Shared-Preferences-Turbo/blob/master/TinyDB.java#L31  
 [6]:  https://bit.ly/learn_app_dev_videos
+[7]:  https://github.com/kcochibili/TinyDB--IOS-Swift-UserDefaults-Turbo
 
 
 
@@ -94,3 +95,5 @@ Just add the TinyDB.java file as a Java Class into your project.
 
 ### Learning app developement?
 Check out my very easy videos [**on youtube**][6]
+
+Lastly, there is [**TinyDB for IOS**][7] too 😊
